@@ -97,7 +97,7 @@ int main(void)
 	dispNumber(&b);
 	putchar('\n');
 
-	compTest(&b,&c);
+	//compTest(&b,&c);
 
 	return 0;
 }
