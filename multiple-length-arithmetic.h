@@ -28,7 +28,8 @@ int divBy10(NUMBER *a, NUMBER *b);
 void swap(NUMBER *a, NUMBER *b);
 int setInt(NUMBER *a, int x);
 int numComp(NUMBER *a, NUMBER *b);
-
+int add(NUMBER *a, NUMBER *b, NUMBER *c);
+int sub(NUMBER *a, NUMBER *b, NUMBER *c);
 
 
 
@@ -239,5 +240,27 @@ int numComp(NUMBER *a, NUMBER *b)
 		return 0;
 	}
 }
+
+int add(NUMBER *a, NUMBER *b, NUMBER *c)
+{
+	int d, e;
+	int i;
+
+	e = 0;
+	clearByZero(c);
+
+	for (i=0; i<KETA; i++) {
+		d = a->n[i] + b->n[i] + e;
+		c->n[i] = d % 10;
+		e = d / 10;
+	}
+
+	if (e != 0) {
+		return -1;
+	}
+
+	return 0;
+}
+
 
 #endif

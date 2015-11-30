@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "multiple-length-arithmetic.h"
 
 int compare2Num(int a, int b)
@@ -22,16 +23,64 @@ void compTest(NUMBER *a, NUMBER *b)
 	x = random();
 	y = random();
 
-	setInt(a, x);
-	setInt(b, y);
-
 	for (i=0; i<10000; i++) {
+
+
+		setInt(a, x);
+		setInt(b, y);
 		resultOpe = compare2Num(x,y);
 		resultCmp = numComp(a,b);
+		x = random();
+		y = random();
 		if(resultCmp == resultOpe)
 			printf("OK\n");
 		else
 			printf("NG\n");
+	}
+}
+
+int add2num(int x, int y)
+{
+	return (x + y);
+}
+
+void convertStr(NUMBER *a, char *str)
+{
+	int i;
+	char numStr[2];
+	for (i = 0; i < KETA; i++)
+	{
+		sprintf(numStr,"%1d",a->n[i]);
+		strcat(str,numStr);
+	}
+}
+
+void addTest(NUMBER *a, NUMBER *b, NUMBER *c)
+{
+	int i;
+	int x, y;
+	int result;
+	char ope[KETA];
+	char func[KETA];
+	x = random();
+	y = random();
+
+	for (i=0; i<100000; i++) {
+
+
+		setInt(a, x);
+		setInt(b, y);
+		result = add2num(x,y);
+		add(a,b,c);
+		convertStr(c,func);
+		sprintf(ope, "%d", result);
+		x = random();
+		y = random();
+		if (!strcmp(ope,func)) {
+			printf("%d + %d NG\n",x,y);
+		}
+		else
+			printf("%d + %d OK\n",x,y);
 	}
 }
 
@@ -97,7 +146,20 @@ int main(void)
 	dispNumber(&b);
 	putchar('\n');
 
+	sedRnd(&b,8);
+	sedRnd(&c,8);
+	dispNumber(&b);
+	putchar('\n');
+	dispNumber(&c);
+	putchar('\n');
+	add(&b,&c,&d);
+	dispNumber(&d);
+	putchar('\n');
+
+
 	//compTest(&b,&c);
+	addTest(&b,&c,&d);
+
 
 	return 0;
 }
