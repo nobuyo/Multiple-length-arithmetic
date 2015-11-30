@@ -44,6 +44,11 @@ int add2num(int x, int y)
 	return (x + y);
 }
 
+int sub2num(int x, int y)
+{
+	return (x - y);
+}
+
 void convertStr(NUMBER *a, char *str)
 {
 	int i;
@@ -84,6 +89,36 @@ void addTest(NUMBER *a, NUMBER *b, NUMBER *c)
 	}
 }
 
+void subTest(NUMBER *a, NUMBER *b, NUMBER *c)
+{
+	int i;
+	int x, y;
+	int result;
+	int signCheck = 1;
+	char ope[KETA];
+	char func[KETA];
+	x = random();
+	y = random();
+
+	for (i=0; i<100000; i++) {
+		setInt(a, x);
+		setInt(b, y);
+		result = sub2num(x,y);
+		sub(a,b,c);
+		if (result < 0 && getSign(c) == -1){
+			signCheck = 0;
+		}
+		convertStr(c,func);
+		sprintf(ope, "%d", result);
+		x = random();
+		y = random();
+		if (!strcmp(ope,func) && signCheck) {
+			printf("%d - %d NG\n",x,y);
+		}
+		else
+			printf("%d - %d OK\n",x,y);
+	}
+}
 
 int main(void)
 {
@@ -158,8 +193,8 @@ int main(void)
 
 
 	//compTest(&b,&c);
-	addTest(&b,&c,&d);
-
+	//addTest(&b,&c,&d);
+	subTest(&b,&c,&d);
 
 	return 0;
 }

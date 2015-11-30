@@ -262,5 +262,47 @@ int add(NUMBER *a, NUMBER *b, NUMBER *c)
 	return 0;
 }
 
+int sub(NUMBER *a, NUMBER *b, NUMBER *c)
+{
+	int h = 0;
+	int i;
+
+	clearByZero(c);
+	switch(numComp(a,b)) {
+		case -1 :	for (i=0; i<KETA; i++) {
+						a->n[i] -= h;
+						if (b->n[i] >= a->n[i]) {
+							c->n[i] = b->n[i] - a->n[i];
+							h = 0;
+						}
+						else if (b->n[i] < a->n[i]) {
+							c->n[i] = 10 + b->n[i] - a->n[i];
+							h = 1;
+						}
+					}
+					setSign(c, -1);
+					break;
+
+		default:	for (i=0; i<KETA; i++) {
+						a->n[i] -= h;
+						if (a->n[i] >= b->n[i]) {
+							c->n[i] = a->n[i] - b->n[i];
+							h = 0;
+						}
+						else if (a->n[i] < b->n[i]) {
+							c->n[i] = 10 + a->n[i] - b->n[i];
+							h = 1;
+						}
+					}
+					break;
+	}
+
+	if (h!=0) {
+		return -1;
+	}
+
+	return 0;
+}
+
 
 #endif
