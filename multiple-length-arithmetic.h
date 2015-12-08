@@ -30,7 +30,8 @@ int setInt(NUMBER *a, int x);
 int numComp(NUMBER *a, NUMBER *b);
 int add(NUMBER *a, NUMBER *b, NUMBER *c);
 int sub(NUMBER *a, NUMBER *b, NUMBER *c);
-
+int increment(NUMBER *a, NUMBER *b);
+int decrement(NUMBER *a, NUMBER *b);
 
 
 void setSign(NUMBER *a, int s) {
@@ -243,12 +244,12 @@ int numComp(NUMBER *a, NUMBER *b)
 
 int add(NUMBER *a, NUMBER *b, NUMBER *c)
 {
-	int d, e;
+	int d, carry;
 	int i;
 	int result;
 	NUMBER absval;
 
-	e = 0;
+	carry = 0;
 	clearByZero(c);
 
 	if (getSign(a) == 1 && getSign(b) == -1) {
@@ -268,9 +269,9 @@ int add(NUMBER *a, NUMBER *b, NUMBER *c)
 	}
 
 	for (i=0; i<KETA; i++) {
-		d = a->n[i] + b->n[i] + e;
+		d = a->n[i] + b->n[i] + carry;
 		c->n[i] = d % 10;
-		e = d / 10;
+		carry = d / 10;
 	}
 
 	if (e != 0) {
@@ -314,5 +315,26 @@ int sub(NUMBER *a, NUMBER *b, NUMBER *c)
 	return 0;
 }
 
+int increment(NUMBER *a, NUMBER *b)
+{
+	NUMBER one;
+	int r;
+
+	setInt(&one, 1);
+	r = add(a, &one, b);
+
+	return r;
+}
+
+int decrement(NUMBER *a, NUMBER *b)
+{
+	NUMBER one;
+	int r;
+
+	setInt(&one, 1);
+	r = sub(a, &one, b);
+
+	return r;
+}
 
 #endif
