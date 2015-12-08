@@ -32,6 +32,7 @@ int add(NUMBER *a, NUMBER *b, NUMBER *c);
 int sub(NUMBER *a, NUMBER *b, NUMBER *c);
 int increment(NUMBER *a, NUMBER *b);
 int decrement(NUMBER *a, NUMBER *b);
+int simpleMultiple(int a, int b, int *c);
 
 
 void setSign(NUMBER *a, int s) {
@@ -247,26 +248,30 @@ int add(NUMBER *a, NUMBER *b, NUMBER *c)
 	int d, carry;
 	int i;
 	int result;
-	NUMBER absval;
+	NUMBER abs_val1,abs_val2;
 
 	carry = 0;
 	clearByZero(c);
 
 	if (getSign(a) == 1 && getSign(b) == -1) {
-		getAbs(b,&absval);
-		result = sub(a,&absval,c);
+		getAbs(b,&abs_val1);
+		result = sub(a,&abs_val1,c);
 		return result;
 	}
 
 	if (getSign(a) == -1 && getSign(b) == 1) {
-		getAbs(a,&absval);
-		result = sub(b,&absval,c);
+		getAbs(a,&abs_val1);
+		result = sub(b,&abs_val1,c);
 		return result;
 	}
 	
 	if (getSign(a) == -1 && getSign(b) == -1) {
-
-	}
+		getAbs(a,&abs_val1);
+		getAbs(b,&abs_val2);
+		result = add(&abs_val1, &abs_val2, c);
+        set_sign(c, -1);
+        return result;
+    }
 
 	for (i=0; i<KETA; i++) {
 		d = a->n[i] + b->n[i] + carry;
@@ -274,7 +279,7 @@ int add(NUMBER *a, NUMBER *b, NUMBER *c)
 		carry = d / 10;
 	}
 
-	if (e != 0) {
+	if (carry != 0) {
 		return -1;
 	}
 
@@ -335,6 +340,26 @@ int decrement(NUMBER *a, NUMBER *b)
 	r = sub(a, &one, b);
 
 	return r;
+}
+
+int simpleMultiple(int a, int b, int *c)
+{
+	int i;
+	int tmp;
+
+	// if (b >= a) {
+	// 	tmp = b;
+	// 	b = a;
+	// 	a = tmp;
+	// }
+
+	*c = a;
+
+	for (i=0; i<b-1; i++) {
+		*c += a;
+	}
+
+	return 0;
 }
 
 #endif

@@ -134,67 +134,70 @@ int main(void)
 		d.n[i] = i;
 	}
 
-	b.sign = 1;
-	c.sign = 0;
-	d.sign = 1;
+	// b.sign = 1;
+	// c.sign = 0;
+	// d.sign = 1;
 
-	clearByZero(&b);
+	// clearByZero(&b);
 
-	b.n[0] = 5;
-	b.n[1] = 3;
+	// b.n[0] = 5;
+	// b.n[1] = 3;
 
-	dispNumber(&b);
-	putchar('\n');
+	// dispNumber(&b);
+	// putchar('\n');
 
-	dispNumberZeroSuppress(&b);
-	putchar('\n');
+	// dispNumberZeroSuppress(&b);
+	// putchar('\n');
 
-	sedRnd(&b,8);
-	dispNumber(&b);
-	putchar('\n');
+	// sedRnd(&b,8);
+	// dispNumber(&b);
+	// putchar('\n');
 
-	printf("Zero Check => %d\n", isZero(&b));
+	// printf("Zero Check => %d\n", isZero(&b));
 
-	clearByZero(&c);
-	dispNumber(&c);
-	putchar('\n');
+	// clearByZero(&c);
+	// dispNumber(&c);
+	// putchar('\n');
 
-	getAbs(&b,&c);
-	dispNumber(&c);
-	putchar('\n');
+	// getAbs(&b,&c);
+	// dispNumber(&c);
+	// putchar('\n');
 
-	sedRnd(&b,8);
-	sedRnd(&c,8);
-	dispNumber(&b);
-	putchar('\n');
-	dispNumber(&c);
-	putchar('\n');
-	swap(&b,&c);
-	dispNumber(&b);
-	putchar('\n');
-	dispNumber(&c);
-	putchar('\n');
+	// sedRnd(&b,8);
+	// sedRnd(&c,8);
+	// dispNumber(&b);
+	// putchar('\n');
+	// dispNumber(&c);
+	// putchar('\n');
+	// swap(&b,&c);
+	// dispNumber(&b);
+	// putchar('\n');
+	// dispNumber(&c);
+	// putchar('\n');
 
-	test = random();
-	printf("%d\n", test);
-	setInt(&b,test);
-	dispNumber(&b);
-	putchar('\n');
+	// test = random();
+	// printf("%d\n", test);
+	// setInt(&b,test);
+	// dispNumber(&b);
+	// putchar('\n');
 
-	sedRnd(&b,8);
-	sedRnd(&c,8);
-	dispNumber(&b);
-	putchar('\n');
-	dispNumber(&c);
-	putchar('\n');
-	add(&b,&c,&d);
-	dispNumber(&d);
-	putchar('\n');
+	// sedRnd(&b,8);
+	// sedRnd(&c,8);
+	// dispNumber(&b);
+	// putchar('\n');
+	// dispNumber(&c);
+	// putchar('\n');
+	// add(&b,&c,&d);
+	// dispNumber(&d);
+	// putchar('\n');
 
 
-	//compTest(&b,&c);
-	//addTest(&b,&c,&d);
-	//subTest(&b,&c,&d);
+	// //compTest(&b,&c);
+	// //addTest(&b,&c,&d);
+	// //subTest(&b,&c,&d);
+
+
+	printf("%d",simpleMultiple(5,4,&test));
 
 	return 0;
 }
