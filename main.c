@@ -194,7 +194,7 @@ int main(void)
 
 	//compTest(&b,&c);
 	//addTest(&b,&c,&d);
-	subTest(&b,&c,&d);
+	//subTest(&b,&c,&d);
 
 	return 0;
 }

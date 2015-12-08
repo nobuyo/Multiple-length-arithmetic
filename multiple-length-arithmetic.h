@@ -245,9 +245,27 @@ int add(NUMBER *a, NUMBER *b, NUMBER *c)
 {
 	int d, e;
 	int i;
+	int result;
+	NUMBER absval;
 
 	e = 0;
 	clearByZero(c);
+
+	if (getSign(a) == 1 && getSign(b) == -1) {
+		getAbs(b,&absval);
+		result = sub(a,&absval,c);
+		return result;
+	}
+
+	if (getSign(a) == -1 && getSign(b) == 1) {
+		getAbs(a,&absval);
+		result = sub(b,&absval,c);
+		return result;
+	}
+	
+	if (getSign(a) == -1 && getSign(b) == -1) {
+
+	}
 
 	for (i=0; i<KETA; i++) {
 		d = a->n[i] + b->n[i] + e;
@@ -264,40 +282,32 @@ int add(NUMBER *a, NUMBER *b, NUMBER *c)
 
 int sub(NUMBER *a, NUMBER *b, NUMBER *c)
 {
-	int h = 0;
+	int borrow = 0;
+	int h;
 	int i;
 
 	clearByZero(c);
-	switch(numComp(a,b)) {
-		case -1 :	for (i=0; i<KETA; i++) {
-						a->n[i] -= h;
-						if (b->n[i] >= a->n[i]) {
-							c->n[i] = b->n[i] - a->n[i];
-							h = 0;
-						}
-						else if (b->n[i] < a->n[i]) {
-							c->n[i] = 10 + b->n[i] - a->n[i];
-							h = 1;
-						}
-					}
-					setSign(c, -1);
-					break;
 
-		default:	for (i=0; i<KETA; i++) {
-						a->n[i] -= h;
-						if (a->n[i] >= b->n[i]) {
-							c->n[i] = a->n[i] - b->n[i];
-							h = 0;
-						}
-						else if (a->n[i] < b->n[i]) {
-							c->n[i] = 10 + a->n[i] - b->n[i];
-							h = 1;
-						}
-					}
-					break;
+	if (numComp(a,b) == -1) {
+		swap(a,b);
+		setSign(c,-1);
 	}
 
-	if (h!=0) {
+	for (i=0; i<KETA; i++) {
+		h = a->n[i] - borrow;
+		if (h >= b->n[i]) {
+			c->n[i] = h - b->n[i];
+			borrow = 0;
+		} 
+		else {
+			c->n[i] = h - b->n[i] + 10;
+			borrow = 1;
+		}
+
+	}
+	swap(b,a);
+
+	if (borrow != 0) {
 		return -1;
 	}
 
