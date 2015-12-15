@@ -27,6 +27,7 @@ int mulBy10(NUMBER *a, NUMBER *b);
 int divBy10(NUMBER *a, NUMBER *b);
 void swap(NUMBER *a, NUMBER *b);
 int setInt(NUMBER *a, int x);
+int getInt(NUMBER *a, int *x);
 int numComp(NUMBER *a, NUMBER *b);
 int add(NUMBER *a, NUMBER *b, NUMBER *c);
 int sub(NUMBER *a, NUMBER *b, NUMBER *c);
@@ -92,7 +93,7 @@ void dispNumberZeroSuppress(NUMBER *a)
 
 }
 
-void sedRnd(NUMBER *a,int n)
+void sedRnd(NUMBER *a, int n)
 {
 	int i;
 	clearByZero(a);
@@ -207,6 +208,20 @@ int setInt(NUMBER *a, int x)
 	return 0;
 }
 
+int getInt(NUMBER *a, int *x) {
+
+    int i;
+    *x = 0;
+
+    for (i = 0; i < KETA; i++) {
+        *x += a->n[i] * pow(10, i);
+    }
+    if (a->sign == -1) {
+        *x *= -1;
+    }
+    return 0;
+}
+
 
 int numComp(NUMBER *a, NUMBER *b)
 {
@@ -269,7 +284,7 @@ int add(NUMBER *a, NUMBER *b, NUMBER *c)
 		getAbs(a,&abs_val1);
 		getAbs(b,&abs_val2);
 		result = add(&abs_val1, &abs_val2, c);
-        set_sign(c, -1);
+        setSign(c, -1);
         return result;
     }
 
@@ -291,7 +306,7 @@ int sub(NUMBER *a, NUMBER *b, NUMBER *c)
 	int borrow = 0;
 	int h;
 	int i;
-	int result
+	int result;
 	NUMBER abs_val;
 
 	clearByZero(c);
@@ -382,25 +397,27 @@ int multiple(NUMBER *a, NUMBER *b, NUMBER *c)
 	int e = 0;
 	int result = 0;
 
-	NUMBER d;
+	NUMBER d,ans;
 
 	clearByZero(c);
+	clearByZero(&ans);
 
 	for (i=0; i<KETA-1; i++) {
 		clearByZero(&d);
-		carry = 0
+		carry = 0;
 
-		for (j=0, j<KETA; j++) {
-			e = a->n[j] * b->n[i] + h;
+		for (j=0; j<KETA; j++) {
+			e = a->n[j] * b->n[i] + carry;
 			d.n[j+i] = e%10;
-			h = e /10 %10
+			carry = e /10 %10;
 		}
 
-		if (h != 0) {
+		if (carry != 0) {
 			result = -1;
 		}
 
-		result = add(&d,c);
+		result = add(&d,c,&ans);
+		copyNumber(&ans, c);
 	}
 	return result;
 }

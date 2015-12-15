@@ -1,159 +1,37 @@
 #include <stdio.h>
-#include <string.h>
 #include "multiple-length-arithmetic.h"
 
-int compare2Num(int a, int b)
-{
-	if (a > b) {
-		return 1;
-	}
-	else if (a < b) {
-		return -1;
-	}
-	else if (a == b) {
-		return 0;
-	}
-}
-
-void compTest(NUMBER *a, NUMBER *b)
+int mulTest(NUMBER *a, NUMBER *b, NUMBER *c)
 {
 	int i;
 	int x, y;
-	int resultOpe, resultCmp;
-	x = random();
-	y = random();
+	int result;
+	int ope;
+
+	puts("Test start...");
 
 	for (i=0; i<10000; i++) {
+		x = random()%10000;
+		y = random()%10000;
 
+		x *= (random() % 2 == 0) ? 1: -1;
+        y *= (random() % 2 == 0) ? 1: -1;
 
-		setInt(a, x);
-		setInt(b, y);
-		resultOpe = compare2Num(x,y);
-		resultCmp = numComp(a,b);
-		x = random();
-		y = random();
-		if(resultCmp == resultOpe)
-			printf("OK\n");
-		else
-			printf("NG\n");
-	}
-}
+		setInt(a,x);
+		setInt(b,y);
 
-int add2num(int x, int y)
-{
-	return (x + y);
-}
+		ope = x*y;
 
-int sub2num(int x, int y)
-{
-	return (x - y);
-}
+		multiple(a,b,c);
+		getInt(c,&result);
 
-int mul2num(int x, int y)
-{
-	return (x * y);
-}
-
-void convertStr(NUMBER *a, char *str)
-{
-	int i;
-	char numStr[2];
-	for (i = 0; i < KETA; i++)
-	{
-		sprintf(numStr,"%1d",a->n[i]);
-		strcat(str,numStr);
-	}
-}
-
-void addTest(NUMBER *a, NUMBER *b, NUMBER *c)
-{
-	int i;
-	int x, y;
-	int result;
-	char ope[KETA];
-	char func[KETA];
-	x = random();
-	y = random();
-
-	for (i=0; i<100000; i++) {
-
-
-		setInt(a, x);
-		setInt(b, y);
-		result = add2num(x,y);
-		add(a,b,c);
-		convertStr(c,func);
-		sprintf(ope, "%d", result);
-		x = random();
-		y = random();
-		if (!strcmp(ope,func)) {
-			printf("%d + %d NG\n",x,y);
+		if (result != ope) {
+			printf("ERROR\n");
+			return -1;
 		}
-		else
-			printf("%d + %d OK\n",x,y);
 	}
-}
 
-void subTest(NUMBER *a, NUMBER *b, NUMBER *c)
-{
-	int i;
-	int x, y;
-	int result;
-	int signCheck = 1;
-	char ope[KETA];
-	char func[KETA];
-	x = random();
-	y = random();
-
-	for (i=0; i<100000; i++) {
-		setInt(a, x);
-		setInt(b, y);
-		result = sub2num(x,y);
-		sub(a,b,c);
-		if (result < 0 && getSign(c) == -1){
-			signCheck = 0;
-		}
-		convertStr(c,func);
-		sprintf(ope, "%d", result);
-		x = random();
-		y = random();
-		if (!strcmp(ope,func) && signCheck) {
-			printf("%d - %d NG\n",x,y);
-		}
-		else
-			printf("%d - %d OK\n",x,y);
-	}
-}
-
-void mulTest(NUMBER *a, NUMBER *b, NUMBER *c)
-{
-	int i;
-	int x, y;
-	int result;
-	int signCheck = 1;
-	char ope[KETA];
-	char func[KETA];
-	x = random();
-	y = random();
-
-	for (i=0; i<100000; i++) {
-		setInt(a, x);
-		setInt(b, y);
-		result = sub2num(x,y);
-		sub(a,b,c);
-		if (result < 0 && getSign(c) == -1){
-			signCheck = 0;
-		}
-		convertStr(c,func);
-		sprintf(ope, "%d", result);
-		x = random();
-		y = random();
-		if (!strcmp(ope,func) && signCheck) {
-			printf("%d - %d NG\n",x,y);
-		}
-		else
-			printf("%d - %d OK\n",x,y);
-	}
+	printf("Done.\n");
 }
 
 int main(void)
@@ -163,7 +41,12 @@ int main(void)
 	NUMBER b,c,d;
 	srandom(time(NULL));
 
+	//mulTest(&b,&c,&d);
 
+	setRnd(&b, 6);
+	setRnd(&c, 1);
+
+	multiple(&b,&c,&d);
 
 	return 0;
 }
