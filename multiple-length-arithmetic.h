@@ -291,8 +291,26 @@ int sub(NUMBER *a, NUMBER *b, NUMBER *c)
 	int borrow = 0;
 	int h;
 	int i;
+	int result
+	NUMBER abs_val;
 
 	clearByZero(c);
+
+	if (getSign(b) == -1) {
+		getAbs(b, &abs_val);
+		result = add(a,&abs_val,c);
+		return result;
+	}
+
+	if (getSign(a) == -1 && getSign(b) == 1) {
+		getAbs(a,&abs_val);
+		result = add(&abs_val, b, c);
+		setSign(c, -1);
+		return result;
+	}
+
+
+	//---sub---
 
 	if (numComp(a,b) == -1) {
 		swap(a,b);
@@ -345,21 +363,46 @@ int decrement(NUMBER *a, NUMBER *b)
 int simpleMultiple(int a, int b, int *c)
 {
 	int i;
-	int tmp;
+	int multiplier   = (a > b) ? b : a;
+    int multiplicand = (a > b) ? a : b;
 
-	// if (b >= a) {
-	// 	tmp = b;
-	// 	b = a;
-	// 	a = tmp;
-	// }
+	*c = 0;
 
-	*c = a;
-
-	for (i=0; i<b-1; i++) {
+	for (i=0; i<b; i++) {
 		*c += a;
 	}
 
 	return 0;
+}
+
+int multiple(NUMBER *a, NUMBER *b, NUMBER *c)
+{
+	int i,j;
+	int carry = 0;
+	int e = 0;
+	int result = 0;
+
+	NUMBER d;
+
+	clearByZero(c);
+
+	for (i=0; i<KETA-1; i++) {
+		clearByZero(&d);
+		carry = 0
+
+		for (j=0, j<KETA; j++) {
+			e = a->n[j] * b->n[i] + h;
+			d.n[j+i] = e%10;
+			h = e /10 %10
+		}
+
+		if (h != 0) {
+			result = -1;
+		}
+
+		result = add(&d,c);
+	}
+	return result;
 }
 
 #endif
