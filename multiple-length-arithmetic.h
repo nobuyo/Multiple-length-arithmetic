@@ -19,7 +19,7 @@ int getSign(NUMBER *a);
 void clearByZero(NUMBER *a);
 void dispNumber(NUMBER *a);
 void dispNumberZeroSuppress(NUMBER *a);
-void sedRnd(NUMBER *a,int n);
+void setRnd(NUMBER *a,int n);
 void copyNumber(NUMBER *a, NUMBER *b);
 void getAbs(NUMBER *a, NUMBER *b);
 int isZero(NUMBER *a);
@@ -36,6 +36,7 @@ int decrement(NUMBER *a, NUMBER *b);
 int simpleMultiple(int a, int b, int *c);
 int multiple(NUMBER *a, NUMBER *b, NUMBER *c);
 int simpleDivide(int, int, int *, int *);
+int divide(NUMBER *, NUMBER *, NUMBER *, NUMBER *);
 
 
 void setSign(NUMBER *a, int s) {
@@ -95,7 +96,7 @@ void dispNumberZeroSuppress(NUMBER *a)
 
 }
 
-void sedRnd(NUMBER *a, int n)
+void setRnd(NUMBER *a, int n)
 {
 	int i;
 	clearByZero(a);
@@ -435,7 +436,7 @@ int simpleDivide(int x, int y, int *z, int *w)
 	k = 0;
 	while (1) {
 		if (x < y) break;
-		x = -y;
+		x -= y;
 		k++;
 	}
 
@@ -445,4 +446,29 @@ int simpleDivide(int x, int y, int *z, int *w)
 	return 0;
 }
 
+int divide(NUMBER *a, NUMBER *b, NUMBER *c, NUMBER *d)
+{
+	NUMBER m,n,one;
+	clearByZero(c);
+	clearByZero(d);
+	
+	if (isZero(b) == -1) {
+		puts("Error! divide by zero, abort");
+		return -1;
+	}
+
+	copyNumber(a,&n);
+
+	while (1) {
+		if (numComp(&n, b) == -1)
+			break;
+		else {
+			increment(c,&m);
+			copyNumber(&m,c);
+			sub(&n,b,&m);
+			copyNumber(&m,c);
+		}
+	}
+	copyNumber(&n,d);
+}
 #endif

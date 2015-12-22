@@ -1,52 +1,28 @@
 #include <stdio.h>
 #include "multiple-length-arithmetic.h"
 
-int mulTest(NUMBER *a, NUMBER *b, NUMBER *c)
-{
-	int i;
-	int x, y;
-	int result;
-	int ope;
-
-	puts("Test start...");
-
-	for (i=0; i<10000; i++) {
-		x = random()%10000;
-		y = random()%10000;
-
-		x *= (random() % 2 == 0) ? 1: -1;
-        y *= (random() % 2 == 0) ? 1: -1;
-
-		setInt(a,x);
-		setInt(b,y);
-
-		ope = x*y;
-
-		multiple(a,b,c);
-		getInt(c,&result);
-
-		if (result != ope) {
-			printf("ERROR\n");
-			return -1;
-		}
-	}
-
-	printf("Done.\n");
-}
-
 int main(void)
 {
 	int i;
-	int test;
-	NUMBER b,c,d;
+	int test,x,y;
+	NUMBER a,b,c,d;
 	srandom(time(NULL));
 
-	//mulTest(&b,&c,&d);
+	// simpleDivide(16,5,&x,&y);
 
-	setRnd(&b, 6);
-	setRnd(&c, 1);
+	// printf("%d/%d = %d...%d\n", 16, 5, x, y);
 
-	multiple(&b,&c,&d);
+	setRnd(&a,3);
+	setRnd(&b,1);
+	divide(&a,&b,&c,&d);
+	dispNumber(&a);
+	putchar('\n');
+	dispNumber(&b);
+	putchar('\n');
+	dispNumber(&c);
+	putchar('\n');
+	dispNumber(&d);
+	putchar('\n');
 
 	return 0;
 }
