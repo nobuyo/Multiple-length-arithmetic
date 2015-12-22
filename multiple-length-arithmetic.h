@@ -35,7 +35,7 @@ int increment(NUMBER *a, NUMBER *b);
 int decrement(NUMBER *a, NUMBER *b);
 int simpleMultiple(int a, int b, int *c);
 int multiple(NUMBER *a, NUMBER *b, NUMBER *c);
-int simpleDivide
+int simpleDivide(int, int, int *, int *);
 
 
 void setSign(NUMBER *a, int s) {
@@ -422,6 +422,27 @@ int multiple(NUMBER *a, NUMBER *b, NUMBER *c)
 		copyNumber(&ans, c);
 	}
 	return result;
+}
+
+int simpleDivide(int x, int y, int *z, int *w)
+{
+	int k;
+
+	if (y==0) {
+		return -1;
+	}
+
+	k = 0;
+	while (1) {
+		if (x < y) break;
+		x = -y;
+		k++;
+	}
+
+	*z = k;
+	*w = x;
+
+	return 0;
 }
 
 #endif
