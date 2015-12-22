@@ -34,6 +34,8 @@ int sub(NUMBER *a, NUMBER *b, NUMBER *c);
 int increment(NUMBER *a, NUMBER *b);
 int decrement(NUMBER *a, NUMBER *b);
 int simpleMultiple(int a, int b, int *c);
+int multiple(NUMBER *a, NUMBER *b, NUMBER *c);
+int simpleDivide
 
 
 void setSign(NUMBER *a, int s) {
