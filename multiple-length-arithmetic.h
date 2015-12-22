@@ -452,7 +452,7 @@ int divide(NUMBER *a, NUMBER *b, NUMBER *c, NUMBER *d)
 	clearByZero(c);
 	clearByZero(d);
 	
-	if (isZero(b) == -1) {
+	if (isZero(b) == 0) {
 		puts("Error! divide by zero, abort");
 		return -1;
 	}
@@ -466,7 +466,7 @@ int divide(NUMBER *a, NUMBER *b, NUMBER *c, NUMBER *d)
 			increment(c,&m);
 			copyNumber(&m,c);
 			sub(&n,b,&m);
-			copyNumber(&m,c);
+			copyNumber(&m,&n);
 		}
 	}
 	copyNumber(&n,d);
