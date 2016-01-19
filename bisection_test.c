@@ -41,8 +41,10 @@ int bisection(double a, double b, double *x)
 
 		if (cs == as) a = d;
 		if (cs == bs) b = d;
-		if (fx == 1.0) break;
+		if (fx == 0.0) break;
 		if (fabs(a - b) < e) break;
+
+		printf("a => %lf b => %lf\n", a,b);
 	}
 
 	*x = d;
@@ -51,7 +53,9 @@ int bisection(double a, double b, double *x)
 
 double f(double x)
 {
-	return(x * x -2.0);
+	//return(x * x -2.0);
+	return(cos(x/2));
+	//return(tan(x));
 }
 
 int sgn(double g)
