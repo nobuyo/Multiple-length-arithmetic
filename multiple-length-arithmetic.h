@@ -14,30 +14,30 @@ typedef struct
 	int sign;
 } NUMBER;
 
-void setSign(NUMBER *a, int s);
-int getSign(NUMBER *a);
-void clearByZero(NUMBER *a);
-void dispNumber(NUMBER *a);
-void dispNumberZeroSuppress(NUMBER *a);
-void setRnd(NUMBER *a,int n);
-void copyNumber(NUMBER *a, NUMBER *b);
-void getAbs(NUMBER *a, NUMBER *b);
-int isZero(NUMBER *a);
-int mulBy10(NUMBER *a, NUMBER *b);
-int divBy10(NUMBER *a, NUMBER *b);
-void swap(NUMBER *a, NUMBER *b);
-int setInt(NUMBER *a, int x);
-int getInt(NUMBER *a, int *x);
-int numComp(NUMBER *a, NUMBER *b);
-int add(NUMBER *a, NUMBER *b, NUMBER *c);
-int sub(NUMBER *a, NUMBER *b, NUMBER *c);
-int increment(NUMBER *a, NUMBER *b);
-int decrement(NUMBER *a, NUMBER *b);
-int simpleMultiple(int a, int b, int *c);
-int multiple(NUMBER *a, NUMBER *b, NUMBER *c);
+void setSign(NUMBER *, int);
+int getSign(NUMBER *);
+void clearByZero(NUMBER *);
+void dispNumber(NUMBER *);
+void dispNumberZeroSuppress(NUMBER *);
+void setRnd(NUMBER *,int);
+void copyNumber(NUMBER *, NUMBER *);
+void getAbs(NUMBER *, NUMBER *);
+int isZero(NUMBER *);
+int mulBy10(NUMBER *, NUMBER *);
+int divBy10(NUMBER *, NUMBER *);
+void swap(NUMBER *, NUMBER *);
+int setInt(NUMBER *, int);
+int getInt(NUMBER *, int *);
+int numComp(NUMBER *, NUMBER *);
+int add(NUMBER *, NUMBER *, NUMBER *);
+int sub(NUMBER *, NUMBER *, NUMBER *);
+int increment(NUMBER *, NUMBER *);
+int decrement(NUMBER *, NUMBER *);
+int simpleMultiple(int, int, int *);
+int multiple(NUMBER *, NUMBER *, NUMBER *);
 int simpleDivide(int, int, int *, int *);
 int divide(NUMBER *, NUMBER *, NUMBER *, NUMBER *);
-
+int power(NUMBER *, NUMBER *, NUMBER *);
 
 void setSign(NUMBER *a, int s) {
 	if (s == -1 || s == 1)
@@ -471,4 +471,17 @@ int divide(NUMBER *a, NUMBER *b, NUMBER *c, NUMBER *d)
 	}
 	copyNumber(&n,d);
 }
+
+int power(NUMBER *a, NUMBER *b, NUMBER *c)
+{
+	NUMBER i;
+	setInt(&i,0);
+	printf("loop\n");
+	while (1)
+	{
+		if (numComp(b, &i) != 1 ) break;
+		increment(&i);
+	}
+}
+
 #endif

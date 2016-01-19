@@ -14,14 +14,10 @@ int main(void)
 
 	setRnd(&a,3);
 	setRnd(&b,1);
-	divide(&a,&b,&c,&d);
+	power(&a,&b,&c);
 	dispNumber(&a);
 	putchar('\n');
 	dispNumber(&b);
-	putchar('\n');
-	dispNumber(&c);
-	putchar('\n');
-	dispNumber(&d);
 	putchar('\n');
 
 	return 0;
