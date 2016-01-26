@@ -440,27 +440,6 @@ multiplier, NUMBER *result)
 	return r;
 }
 
-// int simpleDivide( x, int y, int *z, int *w)
-// {
-// 	int k;
-
-// 	if (y==0) {
-// 		return -1;
-// 	}
-
-// 	k = 0;
-// 	while (1) {
-// 		if (x < y) break;
-// 		x -= y;
-// 		k++;
-// 	}
-
-// 	*z = k;
-// 	*w = x;
-
-// 	return 0;
-// }
-
 int divide(NUMBER *dividend, NUMBER *divisor, NUMBER *quotient, NUMBER *remainder)
 {
 	NUMBER tmp,tmp_div;
@@ -493,7 +472,6 @@ int power(NUMBER *mantissa, NUMBER *expo, NUMBER *result)
 	int i=0, _expo;
 	NUMBER tmp;
 	getInt(expo, &_expo);
-	printf("%d\n", _expo);
 	setInt(result, 1);
 	clearByZero(&tmp);
 
@@ -507,7 +485,6 @@ int power(NUMBER *mantissa, NUMBER *expo, NUMBER *result)
 		copyNumber(&tmp, result);
 		i++;
 	}
-
 	return 0;
 }
 

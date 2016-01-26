@@ -29,7 +29,7 @@ int main(void)
 	putchar('\n');
 	dispNumber(&b);
 	putchar('\n');
-	multiple(&a,&b,&c);
+	power(&a,&b,&c);
 
 	dispNumber(&c);
 	putchar('\n');
