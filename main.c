@@ -8,16 +8,30 @@ int main(void)
 	NUMBER a,b,c,d;
 	srandom(time(NULL));
 
-	// simpleDivide(16,5,&x,&y);
+	setInt(&a,300);
+	setInt(&b,10);
 
-	// printf("%d/%d = %d...%d\n", 16, 5, x, y);
-
-	setRnd(&a,3);
-	setRnd(&b,1);
-	power(&a,&b,&c);
 	dispNumber(&a);
 	putchar('\n');
 	dispNumber(&b);
+	putchar('\n');
+	divide(&a,&b,&c,&d);
+
+	dispNumber(&c);
+	putchar('\n');
+	dispNumber(&d);
+	putchar('\n');
+
+	setInt(&a,5);
+	setInt(&b,2);
+
+	dispNumber(&a);
+	putchar('\n');
+	dispNumber(&b);
+	putchar('\n');
+	multiple(&a,&b,&c);
+
+	dispNumber(&c);
 	putchar('\n');
 
 	return 0;

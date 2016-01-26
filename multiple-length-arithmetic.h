@@ -6,11 +6,11 @@
 #include <time.h>
 #include <math.h>
 
-#define KETA 15
+#define DIGIT 15
 
 typedef struct 
 {
-	int n[KETA];
+	int n[DIGIT];
 	int sign;
 } NUMBER;
 
@@ -33,11 +33,13 @@ int add(NUMBER *, NUMBER *, NUMBER *);
 int sub(NUMBER *, NUMBER *, NUMBER *);
 int increment(NUMBER *, NUMBER *);
 int decrement(NUMBER *, NUMBER *);
-int simpleMultiple(int, int, int *);
+int simpleMultiple(NUMBER *, NUMBER *, NUMBER *);
 int multiple(NUMBER *, NUMBER *, NUMBER *);
 int simpleDivide(int, int, int *, int *);
 int divide(NUMBER *, NUMBER *, NUMBER *, NUMBER *);
 int power(NUMBER *, NUMBER *, NUMBER *);
+int isPrime(NUMBER *);
+
 
 void setSign(NUMBER *a, int s) {
 	if (s == -1 || s == 1)
@@ -52,7 +54,7 @@ int getSign(NUMBER *a) {
 void clearByZero(NUMBER *a)
 {
 	int i;
-	for (i=0; i<KETA; i++) {
+	for (i=0; i<DIGIT; i++) {
 		a->n[i] = 0;
 	}
 
@@ -68,7 +70,7 @@ void dispNumber(NUMBER *a)
 	else {
 		printf("-");
 	}
-	for (i=KETA-1; i>=0; i--) {
+	for (i=DIGIT-1; i>=0; i--) {
 		printf("%2d",a->n[i]);
 	}
 }
@@ -85,7 +87,7 @@ void dispNumberZeroSuppress(NUMBER *a)
 		printf("-");
 	}
 
-	for (i=KETA-1; i>=0; i--) {
+	for (i=DIGIT-1; i>=0; i--) {
 		if (a->n[i] != 0) {
 			flag = 1;
 		}
@@ -116,7 +118,7 @@ void copyNumber(NUMBER *a, NUMBER *b)
 {
 	int i;
 	setSign(b,getSign(a));
-	for (i=0; i<KETA; i++) {
+	for (i=0; i<DIGIT; i++) {
 		b->n[i] = a->n[i];
 	}
 }
@@ -133,7 +135,7 @@ int isZero(NUMBER *a)
 	if (getSign(a) == -1) {
 		return -1;
 	}
-	for (i=0; i<KETA; i++) {
+	for (i=0; i<DIGIT; i++) {
 		if (a->n[i] != 0) {
 			return -1;
 		}
@@ -147,13 +149,13 @@ int mulBy10(NUMBER *a, NUMBER *b)
 	int i;
 	copyNumber(a,b);
 
-	for (i=KETA-1; i>0; i--) {
+	for (i=DIGIT-1; i>0; i--) {
 		b->n[i] = b->n[i-1];
 	}
 
 	b->n[0] = 0;
 
-	if (a->n[KETA-1] != 0) {
+	if (a->n[DIGIT-1] != 0) {
 		return -1;
 	}
 
@@ -165,11 +167,11 @@ int divBy10(NUMBER *a, NUMBER *b)
 	int i;
 	copyNumber(a,b);
 
-	for (i=0; i<KETA; i++) {
+	for (i=0; i<DIGIT; i++) {
 		b->n[i-1] = b->n[i];
 	}
 
-	b->n[KETA-1] = 0;
+	b->n[DIGIT-1] = 0;
 
 	if (a->n[0] != 0) {
 		return -1;
@@ -205,7 +207,7 @@ int setInt(NUMBER *a, int x)
 		y /= 10;
 	}
 
-	if (KETA > 10)
+	if (DIGIT > 10)
 		return -1;
 
 	return 0;
@@ -216,7 +218,7 @@ int getInt(NUMBER *a, int *x) {
     int i;
     *x = 0;
 
-    for (i = 0; i < KETA; i++) {
+    for (i = 0; i < DIGIT; i++) {
         *x += a->n[i] * pow(10, i);
     }
     if (a->sign == -1) {
@@ -228,37 +230,21 @@ int getInt(NUMBER *a, int *x) {
 
 int numComp(NUMBER *a, NUMBER *b)
 {
+ 	int i;
+    int sign = getSign(a);
+    if (getSign(a) > getSign(b)){
+    	return  1;
+    }
 
-	int i;
+    if (getSign(a) < getSign(b)){
+    	return -1;
+    }
 
-	if (getSign(a) == 1 && getSign(b) == -1) {
-		return 1;
-	}
-	else if (getSign(a) == -1 && getSign(b) == 1) {
-		return -1;
-	}
-	else if (getSign(a) == 1 && getSign(b) == 1) {
-
-		for (i = KETA-1; i >= 0; i--)
-		{
-			if (a->n[i] > b->n[i])
-				return 1;
-			else if (a->n[i] < b->n[i])
-				return -1;
-		}
-		return 0;
-	}
-	else if (getSign(a) == -1 && getSign(b) == -1) {
-
-		for (i = KETA-1; i >= 0; i--)
-		{
-			if (a->n[i] > b->n[i])
-				return -1;
-			else if (a->n[i] < b->n[i])
-				return 1;
-		}
-		return 0;
-	}
+    for (i = DIGIT-1; i >= 0; i--) {
+        if (a->n[i] > b->n[i]) return  1 * sign;
+        if (a->n[i] < b->n[i]) return -1 * sign;
+    }
+    return 0;
 }
 
 int add(NUMBER *a, NUMBER *b, NUMBER *c)
@@ -291,7 +277,7 @@ int add(NUMBER *a, NUMBER *b, NUMBER *c)
         return result;
     }
 
-	for (i=0; i<KETA; i++) {
+	for (i=0; i<DIGIT; i++) {
 		d = a->n[i] + b->n[i] + carry;
 		c->n[i] = d % 10;
 		carry = d / 10;
@@ -335,7 +321,7 @@ int sub(NUMBER *a, NUMBER *b, NUMBER *c)
 		setSign(c,-1);
 	}
 
-	for (i=0; i<KETA; i++) {
+	for (i=0; i<DIGIT; i++) {
 		h = a->n[i] - borrow;
 		if (h >= b->n[i]) {
 			c->n[i] = h - b->n[i];
@@ -347,7 +333,7 @@ int sub(NUMBER *a, NUMBER *b, NUMBER *c)
 		}
 
 	}
-	swap(b,a);
+	// swap(b,a);
 
 	if (borrow != 0) {
 		return -1;
@@ -378,110 +364,159 @@ int decrement(NUMBER *a, NUMBER *b)
 	return r;
 }
 
-int simpleMultiple(int a, int b, int *c)
+int simpleMultiple(NUMBER *n1, NUMBER *n2, NUMBER *result)
 {
-	int i;
-	int multiplier   = (a > b) ? b : a;
-    int multiplicand = (a > b) ? a : b;
+	int i,j,k;
+	int carry = 0;
+	int r;
 
-	*c = 0;
+	NUMBER tmp, _result;
 
-	for (i=0; i<b; i++) {
-		*c += a;
+	clearByZero(result);
+	clearByZero(&_result);
+	clearByZero(&tmp);
+
+	for (i = 0; i < DIGIT-1; i++) {
+		NUMBER tmp2, tmp3;
+		clearByZero(&tmp2);
+
+		for (j = 0; j < DIGIT-1; j++) {
+			int mul = n1->n[j] * n2->n[i] + carry;
+			tmp2.n[j]  = mul % 10;
+			carry = mul / 10;
+		}
+
+		for (k = 0; k < i; k++) {
+			r = mulBy10(&tmp2, &tmp3);
+			if (r != 0) return -1;
+			copyNumber(&tmp3, &tmp2);
+		}
+
+		r = add(&tmp, &tmp2, &_result);
+		if (r != 0) return -1;
+		copyNumber(&_result, &tmp);
 	}
+
+	copyNumber(&tmp, result);
 
 	return 0;
 }
 
-int multiple(NUMBER *a, NUMBER *b, NUMBER *c)
+int multiple(NUMBER *multiplicand, NUMBER *
+multiplier, NUMBER *result)
 {
-	int i,j;
-	int carry = 0;
-	int e = 0;
-	int result = 0;
+	NUMBER absMultiplicand;
+	NUMBER absMultiplier;
+	int r;
+	getAbs(multiplicand, &absMultiplicand);
+	getAbs(multiplier, &absMultiplier);
 
-	NUMBER d,ans;
+	int sign1 = getSign(multiplicand) ==1 ? 1:0;
+	int sign2 = getSign(multiplier)   ==1 ? 1:0;
 
-	clearByZero(c);
-	clearByZero(&ans);
-
-	for (i=0; i<KETA-1; i++) {
-		clearByZero(&d);
-		carry = 0;
-
-		for (j=0; j<KETA; j++) {
-			e = a->n[j] * b->n[i] + carry;
-			d.n[j+i] = e%10;
-			carry = e /10 %10;
-		}
-
-		if (carry != 0) {
-			result = -1;
-		}
-
-		result = add(&d,c,&ans);
-		copyNumber(&ans, c);
+	if (sign1 && sign2) {
+		r = simpleMultiple(multiplicand, multiplier, result);
+		setSign(result, 1);
 	}
-	return result;
-}
-
-int simpleDivide(int x, int y, int *z, int *w)
-{
-	int k;
-
-	if (y==0) {
+	else if (sign1 && !sign2) {
+		r = simpleMultiple(multiplicand, &absMultiplier, result);
+		setSign(result, -1);
+	}
+	else if (!sign1 && sign2) {
+		r = simpleMultiple(&absMultiplicand, multiplier, result);
+		setSign(result, -1);
+	}
+	else if (!sign1 && !sign2) {
+		r = simpleMultiple(&absMultiplicand, &absMultiplier, result);
+		setSign(result, 1);
+	}
+	else {
 		return -1;
 	}
 
-	k = 0;
-	while (1) {
-		if (x < y) break;
-		x -= y;
-		k++;
-	}
+	if (r == -1)
+		printf("err:underflow\n");
 
-	*z = k;
-	*w = x;
-
-	return 0;
+	return r;
 }
 
-int divide(NUMBER *a, NUMBER *b, NUMBER *c, NUMBER *d)
+// int simpleDivide( x, int y, int *z, int *w)
+// {
+// 	int k;
+
+// 	if (y==0) {
+// 		return -1;
+// 	}
+
+// 	k = 0;
+// 	while (1) {
+// 		if (x < y) break;
+// 		x -= y;
+// 		k++;
+// 	}
+
+// 	*z = k;
+// 	*w = x;
+
+// 	return 0;
+// }
+
+int divide(NUMBER *dividend, NUMBER *divisor, NUMBER *quotient, NUMBER *remainder)
 {
-	NUMBER m,n,one;
-	clearByZero(c);
-	clearByZero(d);
+	NUMBER tmp,tmp_div;
+	clearByZero(&tmp);
+	clearByZero(&tmp_div);
+	clearByZero(quotient);
+	clearByZero(remainder);
 	
-	if (isZero(b) == 0) {
+	if (isZero(divisor) == 0) {
 		puts("Error! divide by zero, abort");
 		return -1;
 	}
 
-	copyNumber(a,&n);
+	copyNumber(dividend,&tmp_div);
 
 	while (1) {
-		if (numComp(&n, b) == -1)
-			break;
-		else {
-			increment(c,&m);
-			copyNumber(&m,c);
-			sub(&n,b,&m);
-			copyNumber(&m,&n);
-		}
+		if (numComp(&tmp_div,divisor) < 0) break;
+		increment(quotient, &tmp);
+		copyNumber(&tmp, quotient);
+		sub(&tmp_div,divisor,&tmp);
+		copyNumber(&tmp, &tmp_div);
 	}
-	copyNumber(&n,d);
+	copyNumber(&tmp_div,remainder);
+
+	return 0;
 }
 
-int power(NUMBER *a, NUMBER *b, NUMBER *c)
+int power(NUMBER *mantissa, NUMBER *expo, NUMBER *result)
 {
-	NUMBER i;
-	setInt(&i,0);
-	printf("loop\n");
-	while (1)
+	int i=0, _expo;
+	NUMBER tmp;
+	getInt(expo, &_expo);
+	printf("%d\n", _expo);
+	setInt(result, 1);
+	clearByZero(&tmp);
+
+	if (_expo < 0) return -1;
+	if (_expo == 0) return 0;
+	
+	while (i < _expo)
 	{
-		if (numComp(b, &i) != 1 ) break;
-		increment(&i);
+		// if (i >= _expo) break;
+		multiple(result, mantissa, &tmp);
+		copyNumber(&tmp, result);
+		i++;
 	}
+
+	return 0;
 }
+
+// int isPrime(NUMBER *a)
+// {
+// 	if (getSign(a) == -1) {
+// 		return -1;
+// 	}
+// 	if ()
+// }
 
 #endif
