@@ -89,7 +89,7 @@ int main(void)
 		getDenom(&denom,i);
 		// dispNumber(&denom);
 		// putchar('\n');
-		getDenom(&numer,i);
+		getNumer(&numer,i);
 		// dispNumber(&numer);
 		// putchar('\n');
 		getFrac(&numer,&denom,&tmp);
