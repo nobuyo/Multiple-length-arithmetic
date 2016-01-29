@@ -19,9 +19,9 @@ void getDenom(NUMBER *denom, int x)
 		add(&_tmp, denom, &tmp);
 		copyNumber(&tmp,denom);
 	}
-	puts("getDenom Done.");
-	dispNumber(denom);
-	putchar('\n');
+	// puts("getDenom Done.");
+	// dispNumber(denom);
+	// putchar('\n');
 }
 
 void getNumer(NUMBER *numer, int x)
@@ -42,9 +42,9 @@ void getNumer(NUMBER *numer, int x)
 		add(&_tmp, numer, &tmp);
 		copyNumber(&tmp,numer);
 	}
-	puts("getNumer Done.");
-	dispNumber(numer);
-	putchar('\n');
+	// puts("getNumer Done.");
+	// dispNumber(numer);
+	// putchar('\n');
 }
 
 void getFrac(NUMBER *denom, NUMBER *numer, NUMBER *tmp)
@@ -53,11 +53,11 @@ void getFrac(NUMBER *denom, NUMBER *numer, NUMBER *tmp)
 	clearByZero(tmp);
 	setInt(&ten,10);
 	setInt(&sousand,1000);
-	power(&ten, &sousand, tmp);
+	power(&ten, &ten, tmp);
 	multiple(numer,tmp,&_tmp);
 	copyNumber(&_tmp, numer);
 	column_divide(numer,denom,tmp,&_tmp);
-	puts("getFrac Done.");
+	// puts("getFrac Done.");
 }
 
 void divBy16n(NUMBER *num, NUMBER *denom16, NUMBER *result)
@@ -67,7 +67,7 @@ void divBy16n(NUMBER *num, NUMBER *denom16, NUMBER *result)
 	setInt(&sixteen,16);
 	multiple(denom16, &sixteen, &tmp);
 	column_divide(num,&tmp,result,&_tmp);
-	puts("divBy16n Done.");
+	// puts("divBy16n Done.");
 }
 
 int main(void)
@@ -88,7 +88,7 @@ int main(void)
 	setInt(&denom16,1);
 
 	puts("main loop");
-	for (i=0; i<100; i++) {
+	for (i=0; i<10000; i++) {
 
 		printf("-----%d-----\n",i);
 		getDenom(&denom,i);
@@ -100,9 +100,11 @@ int main(void)
 		getFrac(&numer,&denom,&tmp);
 		divBy16n(&tmp,&denom16,&_tmp);
 		add(&ans,&_tmp,&tmp);
+		// dispNumber(&tmp);
+		// putchar('\n');
 		copyNumber(&tmp, &ans);
-		dispNumber(&ans);
-		putchar('\n');
+		// dispNumber(&ans);
+		// putchar('\n');
 	}
 
 	dispNumber(&ans);

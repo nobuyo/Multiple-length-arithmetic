@@ -6,7 +6,7 @@
 #include <time.h>
 #include <math.h>
 
-#define DIGIT 200
+#define DIGIT 1200
 
 typedef struct 
 {
