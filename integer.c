@@ -20,6 +20,8 @@ void getDenom(NUMBER *denom, int x)
 		copyNumber(&tmp,denom);
 	}
 	puts("getDenom Done.");
+	dispNumber(denom);
+	putchar('\n');
 }
 
 void getNumer(NUMBER *numer, int x)
@@ -41,12 +43,15 @@ void getNumer(NUMBER *numer, int x)
 		copyNumber(&tmp,numer);
 	}
 	puts("getNumer Done.");
+	dispNumber(numer);
+	putchar('\n');
 }
 
 void getFrac(NUMBER *denom, NUMBER *numer, NUMBER *tmp)
 {
 	NUMBER _tmp,ten,sousand;
 	clearByZero(tmp);
+	setInt(&ten,10);
 	setInt(&sousand,1000);
 	power(&ten, &sousand, tmp);
 	multiple(numer,tmp,&_tmp);
@@ -96,6 +101,8 @@ int main(void)
 		divBy16n(&tmp,&denom16,&_tmp);
 		add(&ans,&_tmp,&tmp);
 		copyNumber(&tmp, &ans);
+		dispNumber(&ans);
+		putchar('\n');
 	}
 
 	dispNumber(&ans);
