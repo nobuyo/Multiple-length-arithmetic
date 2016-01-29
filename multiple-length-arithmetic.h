@@ -6,7 +6,7 @@
 #include <time.h>
 #include <math.h>
 
-#define DIGIT 15
+#define DIGIT 500
 
 typedef struct 
 {
@@ -188,28 +188,46 @@ void swap(NUMBER *a, NUMBER *b)
 	copyNumber(&tmp, b);	
 }
 
-int setInt(NUMBER *a, int x)
-{
-	int i,y;
-	clearByZero(a);
-	y = abs(x);
+// int setInt(NUMBER *a, int x)
+// {
+// 	int i,y;
+// 	clearByZero(a);
+// 	y = abs(x);
 
+// 	if (x < 0) {
+// 		setSign(a, -1);
+// 	}
+// 	else {
+// 		setSign(a, 1);
+// 	}
+
+// 	for (i=0; i<10; i++) {
+// 		a->n[i] = y % 10;
+// 		y -= a->n[i];
+// 		y /= 10;
+// 	}
+
+// 	return 0;
+// }
+
+int setInt(NUMBER *num, int x) {
+	int i = 0;
+	clearByZero(num);
+
+	// if negative
 	if (x < 0) {
-		setSign(a, -1);
-	}
-	else {
-		setSign(a, 1);
+		setSign(num, -1);
+		x *= -1;
 	}
 
-	for (i=0; i<10; i++) {
-		a->n[i] = y % 10;
-		y -= a->n[i];
-		y /= 10;
+	while (1) {
+		// break if overflow
+		if (i >= DIGIT) return -1;
+		num->n[i++] = x % 10;
+		// break if finish
+		if (x / 10 == 0) break;
+		x /= 10;
 	}
-
-	if (DIGIT > 10)
-		return -1;
-
 	return 0;
 }
 
@@ -440,31 +458,88 @@ multiplier, NUMBER *result)
 	return r;
 }
 
-int divide(NUMBER *dividend, NUMBER *divisor, NUMBER *quotient, NUMBER *remainder)
+// int divide(NUMBER *dividend, NUMBER *divisor, NUMBER *quotient, NUMBER *remainder)
+// {
+// 	NUMBER tmp,tmp_div;
+// 	NUMBER divisor_;
+// 	clearByZero(&tmp);
+// 	clearByZero(&tmp_div);
+// 	clearByZero(quotient);
+// 	clearByZero(remainder);
+// 	clear_by_zero(&divisor_);
+//     get_abs(dividend, &tmp_div);
+//     get_abs(divisor, &divisor_);
+
+// 	if (isZero(divisor) == 0) {
+// 		puts("Error! divide by zero, abort");
+// 		return -1;
+// 	}
+
+
+// 	while (1) {
+// 		if (numComp(&tmp_div,&divisor_) < 0) break;
+// 		increment(quotient, &tmp);
+// 		copyNumber(&tmp, quotient);
+// 		sub(&tmp_div,&divisor_,&tmp);
+// 		copyNumber(&tmp, &tmp_div);
+// 	}
+// 	copyNumber(&tmp_div,remainder);
+
+// 	if (isZero(quotient) != 0) {
+// 		setSign(quotient, getSign(dividend) * getSign(divisor));
+// 	}
+// 	if (isZero(remainder) != 0) {
+// 		setSign(remainder, getSign(dividend));
+// 	}
+
+// 	return 0;
+// }
+
+int column_divide(NUMBER *dividend, NUMBER *divisor, NUMBER *quotient, NUMBER *remainder)
 {
-	NUMBER tmp,tmp_div;
-	clearByZero(&tmp);
-	clearByZero(&tmp_div);
-	clearByZero(quotient);
-	clearByZero(remainder);
-	
-	if (isZero(divisor) == 0) {
-		puts("Error! divide by zero, abort");
-		return -1;
-	}
+    NUMBER dividend_, divisor_;
+    NUMBER tmp;
+    int count = 0;
+    int i;
+    clearByZero(quotient);
+    clearByZero(remainder);
+    clearByZero(&tmp);
+    clearByZero(&dividend_);
+    clearByZero(&divisor_);
 
-	copyNumber(dividend,&tmp_div);
+    getAbs(dividend, &dividend_);
+    getAbs(divisor, &divisor_);
 
-	while (1) {
-		if (numComp(&tmp_div,divisor) < 0) break;
-		increment(quotient, &tmp);
-		copyNumber(&tmp, quotient);
-		sub(&tmp_div,divisor,&tmp);
-		copyNumber(&tmp, &tmp_div);
-	}
-	copyNumber(&tmp_div,remainder);
+    if (isZero(divisor) == 0) return -1;
 
-	return 0;
+    while (numComp(&dividend_, &divisor_) == 1) {
+        mulBy10(&divisor_, &tmp);
+        if (numComp(&dividend_, &tmp) != 1) break;
+        copyNumber(&tmp, &divisor_);
+        count++;
+    }
+
+    for (i = 0; i <= count; i++) {
+        mulBy10(quotient, &tmp); copyNumber(&tmp, quotient);
+        while (numComp(&dividend_, &divisor_) > -1) {
+            increment(quotient, &tmp);
+            copyNumber(&tmp, quotient);
+            sub(&dividend_, &divisor_, &tmp);
+            copyNumber(&tmp, &dividend_);
+        }
+        divBy10(&divisor_, &tmp);
+        copyNumber(&tmp, &divisor_);
+    }
+    copyNumber(&dividend_, remainder);
+
+    if (isZero(quotient) != 0) {
+        setSign(quotient, getSign(dividend) * getSign(divisor));
+    }
+    if (isZero(remainder) != 0) {
+        setSign(remainder, getSign(dividend));
+    }
+
+    return 0;
 }
 
 int power(NUMBER *mantissa, NUMBER *expo, NUMBER *result)
@@ -488,12 +563,6 @@ int power(NUMBER *mantissa, NUMBER *expo, NUMBER *result)
 	return 0;
 }
 
-// int isPrime(NUMBER *a)
-// {
-// 	if (getSign(a) == -1) {
-// 		return -1;
-// 	}
-// 	if ()
-// }
+
 
 #endif
