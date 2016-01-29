@@ -85,7 +85,7 @@ int main(void)
 	puts("main loop");
 	for (i=0; i<100; i++) {
 
-		/printf("-----%d-----\n",i);
+		printf("-----%d-----\n",i);
 		getDenom(&denom,i);
 		// dispNumber(&denom);
 		// putchar('\n');
