@@ -69,7 +69,7 @@ int main(void)
 {
 	int i;
 	NUMBER tmp,_tmp;
-	NUMBER numer;
+	NUMBER denom,numer;
 	NUMBER denom16;
 	NUMBER n;
 	NUMBER ans;
