@@ -19,7 +19,7 @@ void getDenom(NUMBER *denom, int x)
 		add(&_tmp, denom, &tmp);
 		copyNumber(&tmp,denom);
 	}
-	puts("getDenom Done.")
+	puts("getDenom Done.");
 }
 
 void getNumer(NUMBER *numer, int x)
@@ -40,7 +40,7 @@ void getNumer(NUMBER *numer, int x)
 		add(&_tmp, numer, &tmp);
 		copyNumber(&tmp,numer);
 	}
-	puts("getNumer Done.")
+	puts("getNumer Done.");
 }
 
 void getFrac(NUMBER *denom, NUMBER *numer, NUMBER *tmp)
@@ -52,7 +52,7 @@ void getFrac(NUMBER *denom, NUMBER *numer, NUMBER *tmp)
 	multiple(numer,tmp,&_tmp);
 	copyNumber(&_tmp, numer);
 	column_divide(numer,denom,tmp,&_tmp);
-	puts("getFrac Done.")
+	puts("getFrac Done.");
 }
 
 void divBy16n(NUMBER *num, NUMBER *denom16, NUMBER *result)
@@ -62,7 +62,7 @@ void divBy16n(NUMBER *num, NUMBER *denom16, NUMBER *result)
 	setInt(&sixteen,16);
 	multiple(denom16, &sixteen, &tmp);
 	column_divide(num,&tmp,result,&_tmp);
-	puts("divBy16n Done.")
+	puts("divBy16n Done.");
 }
 
 int main(void)
