@@ -6,7 +6,7 @@
 #include <time.h>
 #include <math.h>
 
-#define DIGIT 500
+#define DIGIT 200
 
 typedef struct 
 {
@@ -453,7 +453,7 @@ multiplier, NUMBER *result)
 	}
 
 	if (r == -1)
-		printf("err:underflow\n");
+//		printf("err:underflow\n");
 
 	return r;
 }
