@@ -4,19 +4,16 @@
 int main(void)
 {
 	NUMBER a,b,c,d;
+	
+	setInt(&a, 2);
+	setInt(&b,10);
 
-	setRnd(&a, 40);
-	setRnd(&b,  1);
+	power(&a,&b,&c);
 
 	dispNumber(&a);
 	putchar('\n');
 	dispNumber(&b);
 	putchar('\n');
-
-	column_divide(&a,&b,&c,&d);
-
 	dispNumber(&c);
-	putchar('\n');
-	dispNumber(&d);
 	putchar('\n');
 }

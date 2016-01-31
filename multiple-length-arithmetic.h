@@ -6,7 +6,7 @@
 #include <time.h>
 #include <math.h>
 
-#define DIGIT 1200
+#define DIGIT 2020
 
 typedef struct 
 {
@@ -188,28 +188,6 @@ void swap(NUMBER *a, NUMBER *b)
 	copyNumber(&tmp, b);	
 }
 
-// int setInt(NUMBER *a, int x)
-// {
-// 	int i,y;
-// 	clearByZero(a);
-// 	y = abs(x);
-
-// 	if (x < 0) {
-// 		setSign(a, -1);
-// 	}
-// 	else {
-// 		setSign(a, 1);
-// 	}
-
-// 	for (i=0; i<10; i++) {
-// 		a->n[i] = y % 10;
-// 		y -= a->n[i];
-// 		y /= 10;
-// 	}
-
-// 	return 0;
-// }
-
 int setInt(NUMBER *num, int x) {
 	int i = 0;
 	clearByZero(num);
@@ -387,6 +365,7 @@ int simpleMultiple(NUMBER *n1, NUMBER *n2, NUMBER *result)
 	int i,j,k;
 	int carry = 0;
 	int r;
+	int top_j=DIGIT-1,top_i=DIGIT-1;
 
 	NUMBER tmp, _result;
 
@@ -394,11 +373,21 @@ int simpleMultiple(NUMBER *n1, NUMBER *n2, NUMBER *result)
 	clearByZero(&_result);
 	clearByZero(&tmp);
 
-	for (i = 0; i < DIGIT-1; i++) {
+	while (n2->n[top_i] == 0) {
+		top_i--;
+	}
+	while (n1->n[top_j] == 0) {
+		top_j--;
+	}
+
+	// printf("%d\n", top_j);
+	// printf("%d\n", top_i);
+
+	for (i = 0; i <= top_i+1; i++) {
 		NUMBER tmp2, tmp3;
 		clearByZero(&tmp2);
 
-		for (j = 0; j < DIGIT-1; j++) {
+		for (j = 0; j <= top_j+1; j++) {
 			int mul = n1->n[j] * n2->n[i] + carry;
 			tmp2.n[j]  = mul % 10;
 			carry = mul / 10;
@@ -429,8 +418,8 @@ multiplier, NUMBER *result)
 	getAbs(multiplicand, &absMultiplicand);
 	getAbs(multiplier, &absMultiplier);
 
-	int sign1 = getSign(multiplicand) ==1 ? 1:0;
-	int sign2 = getSign(multiplier)   ==1 ? 1:0;
+	int sign1 = getSign(multiplicand) == 1 ? 1:0;
+	int sign2 = getSign(multiplier)   == 1 ? 1:0;
 
 	if (sign1 && sign2) {
 		r = simpleMultiple(multiplicand, multiplier, result);
@@ -542,27 +531,75 @@ int column_divide(NUMBER *dividend, NUMBER *divisor, NUMBER *quotient, NUMBER *r
     return 0;
 }
 
-int power(NUMBER *mantissa, NUMBER *expo, NUMBER *result)
-{
-	int i=0, _expo;
-	NUMBER tmp;
-	getInt(expo, &_expo);
-	setInt(result, 1);
-	clearByZero(&tmp);
+// int power(NUMBER *mantissa, NUMBER *expo, NUMBER *result)
+// {
+// 	int i=0, _expo;
+// 	NUMBER tmp;
+// 	getInt(expo, &_expo);
+// 	clearByZero(&tmp);
+// 	clearByZero(result);
+// 	setInt(result, 1);
 
-	if (_expo < 0) return -1;
-	if (_expo == 0) return 0;
+// 	if (_expo < 0) return -1;
+// 	if (_expo == 0) return 0;
 	
-	while (i < _expo)
-	{
-		// if (i >= _expo) break;
-		multiple(result, mantissa, &tmp);
-		copyNumber(&tmp, result);
-		i++;
-	}
-	return 0;
-}
+// 	while (i < _expo)
+// 	{
+// 		if (i >= _expo) break;
+// 		multiple(result, mantissa, &tmp);
+// 		copyNumber(&tmp, result);
+// 		i++;
+// 	}
+// 	return 0;
+// }
 
+// c <- pow(a, b)
+int power(NUMBER *a, NUMBER *b, NUMBER *c) {
+    NUMBER zero, one;
+    NUMBER i, tmpI;
+    NUMBER result, tmpResult;
+    clearByZero(&zero);
+    setInt(&one, 1);
+    clearByZero(&i);
+    clearByZero(&tmpI);
+    clearByZero(&result);
+    clearByZero(&tmpResult);
+
+    // pow(a, b) where a == 0
+    if (numComp(a, &zero) == 0) {
+        setInt(c, 0);
+        return 0;
+    }
+
+    // pow(a, b) where a == 1
+    if (numComp(a, &one) == 0) {
+        setInt(c, 1);
+        return 0;
+    }
+
+    // pow(a, b) where b == 0
+    if (numComp(b, &zero) == 0) {
+        setInt(c, 1);
+        return 0;
+    }
+
+    // pow(a, b)
+    setInt(&result, 1);
+    while (1) {
+        if (numComp(&i, b) >= 0) break;
+
+        // result *= a
+        multiple(a, &result, &tmpResult);
+        copyNumber(&tmpResult, &result);
+
+        // i++
+        increment(&i, &tmpI);
+        copyNumber(&tmpI, &i);
+    }
+    copyNumber(&result, c);
+
+    return 0;
+}
 
 
 #endif

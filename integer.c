@@ -1,114 +1,90 @@
 #include <stdio.h>
 #include "multiple-length-arithmetic.h"
 
-void getDenom(NUMBER *denom, int x)
-{
-	int i;
-	NUMBER tmp,_tmp;
-	NUMBER num;
-	NUMBER n;
-	int coef[5] = {256,512,356,97,75};
+void bbp_sum(NUMBER *sum,NUMBER *n,NUMBER *c,NUMBER *one,NUMBER *eight ,NUMBER *sixteen)
+{	
+	NUMBER tmp,tmp_;
+	NUMBER denom;
+	NUMBER hex;
 
-	for (i=0; i<5; i++) {
-		setInt(&n,x);
-		setInt(&num,4-i);
-		power(&n,&num,&tmp);
-		setInt(&num,coef[i]);
-		multiple(&tmp,&num,&_tmp);
+	power(sixteen,n,&tmp);
+	column_divide(one,&tmp,&hex,&tmp_);
 
-		add(&_tmp, denom, &tmp);
-		copyNumber(&tmp,denom);
-	}
-	// puts("getDenom Done.");
-	// dispNumber(denom);
-	// putchar('\n');
+	multiple(eight,n,&tmp);
+	add(&tmp, c, &tmp_);
+	column_divide(one,&tmp_,&denom,&tmp);
+
+	multiple(&hex,&denom,sum);
 }
 
-void getNumer(NUMBER *numer, int x)
+int get10pow1000(NUMBER *a)
 {
-	int i;
-	NUMBER tmp,_tmp;
-	NUMBER num;
-	NUMBER n;
-	int coef[4] = {64,140,107,27};
-
-	for (i=0; i<4; i++) {
-		setInt(&n,x);
-		setInt(&num,3-i);
-		power(&n,&num,&tmp);
-		setInt(&num,coef[i]);
-		multiple(&tmp,&num,&_tmp);
-
-		add(&_tmp, numer, &tmp);
-		copyNumber(&tmp,numer);
-	}
-	// puts("getNumer Done.");
-	// dispNumber(numer);
-	// putchar('\n');
-}
-
-void getFrac(NUMBER *denom, NUMBER *numer, NUMBER *tmp)
-{
-	NUMBER _tmp,ten,sousand;
-	clearByZero(tmp);
-	setInt(&ten,10);
-	setInt(&sousand,1000);
-	power(&ten, &ten, tmp);
-	multiple(numer,tmp,&_tmp);
-	copyNumber(&_tmp, numer);
-	column_divide(numer,denom,tmp,&_tmp);
-	// puts("getFrac Done.");
-}
-
-void divBy16n(NUMBER *num, NUMBER *denom16, NUMBER *result)
-{
-	NUMBER n;
-	NUMBER tmp,_tmp,sixteen;
-	setInt(&sixteen,16);
-	multiple(denom16, &sixteen, &tmp);
-	column_divide(num,&tmp,result,&_tmp);
-	// puts("divBy16n Done.");
+	clearByZero(a);
+	a->n[1000]=1;
+	return 0;
 }
 
 int main(void)
 {
 	int i;
 	NUMBER tmp,_tmp;
-	NUMBER denom,numer;
-	NUMBER denom16;
+	NUMBER sum1,sum2,sum3,sum4;
 	NUMBER n;
 	NUMBER ans;
+	NUMBER coff;
+	NUMBER one,two,four,five,six,ten,sousand,eight,sixteen;
 
-	clearByZero(&denom);
-	clearByZero(&numer);
 	clearByZero(&tmp);
 	clearByZero(&_tmp);
 	clearByZero(&ans);
 
-	setInt(&denom16,1);
+	setInt(&one,1);
+	setInt(&two,2);
+	setInt(&four,4);
+	setInt(&five,5);
+	setInt(&six,6);
+	setInt(&ten,10);
+	setInt(&sousand,1000);
+	setInt(&eight,8);
+	setInt(&sixteen,16);
+
+	get10pow1000(&coff);
+
+	dispNumber(&coff);
+	putchar('\n');
 
 	puts("main loop");
-	for (i=0; i<10000; i++) {
+	for (i=0; i<1000; i++) {
+		setInt(&n,i);
+		bbp_sum(&sum1,&n,&one,&coff,&eight,&sixteen);
+		bbp_sum(&sum2,&n,&four,&coff,&eight,&sixteen);
+		bbp_sum(&sum3,&n,&five,&coff,&eight,&sixteen);
+		bbp_sum(&sum4,&n,&six,&coff,&eight,&sixteen);
 
-		printf("-----%d-----\n",i);
-		getDenom(&denom,i);
-		// dispNumber(&denom);
-		// putchar('\n');
-		getNumer(&numer,i);
-		// dispNumber(&numer);
-		// putchar('\n');
-		getFrac(&numer,&denom,&tmp);
-		divBy16n(&tmp,&denom16,&_tmp);
-		add(&ans,&_tmp,&tmp);
-		// dispNumber(&tmp);
-		// putchar('\n');
-		copyNumber(&tmp, &ans);
-		// dispNumber(&ans);
-		// putchar('\n');
+
+		multiple(&sum1,&four,&tmp);
+		sum1 = tmp;
+		// copyNumber(&tmp,&sum1);
+
+		multiple(&sum2,&two,&tmp);
+		sum2 = tmp;
+		// copyNumber(&tmp,&sum2);
+
+		sub(&sum1,&sum2,&tmp);
+		sub(&tmp,&sum3,&_tmp);
+		sub(&_tmp,&sum4,&tmp);
+
+		add(&ans,&tmp,&_tmp);
+		ans = _tmp;
+		// copyNumber(&_tmp,&ans);
+
+		dispNumber(&ans);
+		putchar('\n');
 	}
 
 	dispNumber(&ans);
 	putchar('\n');
+
 
 	return 0;
 }
