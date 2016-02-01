@@ -1,20 +1,12 @@
 #include <stdio.h>
 #include "multiple-length-arithmetic.h"
 
-void bbp_sum(NUMBER *sum,NUMBER *n,NUMBER *c,NUMBER *one,NUMBER *eight ,NUMBER *sixteen)
+void bbp_sum(NUMBER *sum, NUMBER *c,NUMBER *one,NUMBER *eight)
 {	
 	NUMBER tmp,tmp_;
-	NUMBER denom;
-	NUMBER hex;
 
-	power(sixteen,n,&tmp);
-	column_divide(one,&tmp,&hex,&tmp_);
-
-	multiple(eight,n,&tmp);
-	add(&tmp, c, &tmp_);
-	column_divide(one,&tmp_,&denom,&tmp);
-
-	multiple(&hex,&denom,sum);
+	add(eight, c, &tmp);
+	column_divide(one,&tmp,sum,&tmp_);
 }
 
 int get10pow1000(NUMBER *a)
@@ -31,12 +23,14 @@ int main(void)
 	NUMBER sum1,sum2,sum3,sum4;
 	NUMBER n;
 	NUMBER ans;
-	NUMBER coff;
+	NUMBER numer, denom, denom16;
+	NUMBER coff,hex;
 	NUMBER one,two,four,five,six,ten,sousand,eight,sixteen;
 
 	clearByZero(&tmp);
 	clearByZero(&_tmp);
 	clearByZero(&ans);
+	clearByZero(&denom16);
 
 	setInt(&one,1);
 	setInt(&two,2);
@@ -47,19 +41,21 @@ int main(void)
 	setInt(&sousand,1000);
 	setInt(&eight,8);
 	setInt(&sixteen,16);
+	setInt(&hex,1);
 
 	get10pow1000(&coff);
 
-	dispNumber(&coff);
-	putchar('\n');
-
 	puts("main loop");
-	for (i=0; i<1000; i++) {
+	for (i=0; i<20; i++) {
+
 		setInt(&n,i);
-		bbp_sum(&sum1,&n,&one,&coff,&eight,&sixteen);
-		bbp_sum(&sum2,&n,&four,&coff,&eight,&sixteen);
-		bbp_sum(&sum3,&n,&five,&coff,&eight,&sixteen);
-		bbp_sum(&sum4,&n,&six,&coff,&eight,&sixteen);
+
+		multiple(&eight,&n,&denom);
+
+		bbp_sum(&sum1,&one,&coff,&denom);
+		bbp_sum(&sum2,&four,&coff,&denom);
+		bbp_sum(&sum3,&five,&coff,&denom);
+		bbp_sum(&sum4,&six,&coff,&denom);
 
 
 		multiple(&sum1,&four,&tmp);
@@ -70,19 +66,28 @@ int main(void)
 		sum2 = tmp;
 		// copyNumber(&tmp,&sum2);
 
-		sub(&sum1,&sum2,&tmp);
-		sub(&tmp,&sum3,&_tmp);
-		sub(&_tmp,&sum4,&tmp);
+		sub(&sum1,&sum2, &tmp);
+		sub(&tmp, &sum3, &_tmp);
+		sub(&_tmp,&sum4, &tmp);
 
-		add(&ans,&tmp,&_tmp);
+		add(&ans, &tmp, &_tmp);
 		ans = _tmp;
+
+		add(&denom16,&hex,&tmp);
+		denom16 = tmp;
+		multiple(&hex,&sixteen,&tmp);
+		hex = tmp;
+
 		// copyNumber(&_tmp,&ans);
 
-		dispNumber(&ans);
-		putchar('\n');
+		// dispNumber(&ans);
+		// putchar('\n');
 	}
 
-	dispNumber(&ans);
+	add(&denom16, &hex, &denom);
+	column_divide(&ans, &denom, &tmp, &_tmp);
+
+	dispNumber(&tmp);
 	putchar('\n');
 
 
